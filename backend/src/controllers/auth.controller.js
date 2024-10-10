@@ -35,9 +35,17 @@ export const login = async (req, res) => {
       maxAge: 86400000,
     });
 
-    res.status(200).json({ userId: user._id });
+    res.status(200).json({ message: "Login successfully", userId: user._id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+export const logout = (req, res) => {
+  res
+    .cookie("auth_token", "", {
+      expires: new Date(0),
+    })
+    .send();
 };
