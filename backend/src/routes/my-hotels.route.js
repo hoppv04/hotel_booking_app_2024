@@ -1,7 +1,7 @@
 import express from "express";
 import { body } from "express-validator";
 import multer from "multer";
-import { addHotel } from "../controllers/hotel.controller.js";
+import { addHotel, getMyHotels } from "../controllers/hotel.controller.js";
 import verifyToken from "./../middlewares/auth.middleware.js";
 
 const router = express.Router();
@@ -35,5 +35,7 @@ router.post(
   upload.array("imageFiles", 6),
   addHotel
 );
+
+router.get("/", verifyToken, getMyHotels);
 
 export default router;

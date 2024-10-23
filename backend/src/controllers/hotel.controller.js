@@ -2,13 +2,6 @@ import cloudinary from "cloudinary";
 import Hotel from "../models/hotel.model.js";
 
 export const addHotel = async (req, res) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({
-  //     message: errors.array(),
-  //   });
-  // }
-
   try {
     const imageFiles = req.files;
     const newHotel = req.body;
@@ -30,6 +23,19 @@ export const addHotel = async (req, res) => {
     await hotel.save();
 
     res.status(201).send(hotel);
+  } catch (error) {
+    console.log("Error creating hotel: ", error);
+    res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
+};
+
+export const getMyHotels = async (req, res) => {
+  try {
+    const hotels = await Hotel.find({ userId: req.userId });
+
+    res.status(200).json(hotels);
   } catch (error) {
     console.log("Error creating hotel: ", error);
     res.status(500).json({
