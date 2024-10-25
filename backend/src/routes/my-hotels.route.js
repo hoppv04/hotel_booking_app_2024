@@ -6,7 +6,7 @@ import {
   editMyHotel,
   getHotelById,
   getMyHotels,
-} from "../controllers/hotel.controller.js";
+} from "../controllers/my-hotels.controller.js";
 import verifyToken from "./../middlewares/auth.middleware.js";
 
 const router = express.Router();

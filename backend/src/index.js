@@ -7,6 +7,7 @@ import connectMongoDB from "./configs/connectMongoDB.js";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/users.route.js";
 import myHotelsRoutes from "./routes/my-hotels.route.js";
+import hotelRoutes from "./routes/hotels.route.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -33,6 +34,7 @@ app.use(
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", myHotelsRoutes);
+app.use("/api/hotels", hotelRoutes);
 
 app.listen(7000, () => {
   console.log(`Server is running on localhost:7000 `);
