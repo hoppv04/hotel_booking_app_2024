@@ -16,11 +16,12 @@ const Pagination = ({ page, pages, onPageChange }: Props) => {
         {pageNumbers.map((number) => (
           <li
             key={number}
+            onClick={() => onPageChange(number)}
             className={`px-2 py-1 cursor-pointer ${
               page === number ? "bg-gray-200" : ""
             }`}
           >
-            <button onClick={() => onPageChange(number)}>{number}</button>
+            <button>{number}</button>
           </li>
         ))}
       </ul>
