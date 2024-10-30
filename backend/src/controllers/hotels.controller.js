@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import Hotel from "./../models/hotel.model.js";
 
 export const searchHotel = async (req, res) => {
@@ -43,6 +44,24 @@ export const searchHotel = async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     console.log("Error search hotel: ", error);
+    res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
+};
+
+export const hotelDetails = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const id = req.params.id.toString();
+  try {
+    const hotel = await Hotel.findById(id);
+    res.status(200).json(hotel);
+  } catch (error) {
+    console.log("Error hotel details: ", error);
     res.status(500).json({
       message: "Something went wrong",
     });
