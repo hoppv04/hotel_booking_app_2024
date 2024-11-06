@@ -1,4 +1,4 @@
-import { HotelType } from "../api-client";
+import { HotelType } from "../types";
 
 type Props = {
   checkIn: Date;

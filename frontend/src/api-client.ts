@@ -1,53 +1,13 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
-
-export type HotelType = {
-  _id: string;
-  userId: string;
-  name: string;
-  city: string;
-  country: string;
-  description: string;
-  type: string;
-  adultCount: number;
-  childCount: number;
-  facilities: string[];
-  pricePerNight: number;
-  starRating: number;
-  imageUrls: string[];
-  lastUpdated: Date;
-};
-
-export type SearchParams = {
-  destination?: string;
-  checkIn?: string;
-  checkOut?: string;
-  adultCount?: string;
-  childCount?: string;
-  page?: string;
-  facilities?: string[];
-  types?: string[];
-  stars?: string[];
-  maxPrice?: string;
-  sortOption?: string;
-};
-
-export type HotelSearchResponse = {
-  data: HotelType[];
-  pagination: {
-    total: number;
-    page: number;
-    pages: number;
-  };
-};
-
-export type UserType = {
-  _id: string;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
+import {
+  BookingFormData,
+  HotelSearchResponse,
+  HotelType,
+  PaymentIntentResponse,
+  SearchParams,
+  UserType,
+} from "./types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -214,4 +174,45 @@ export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
   }
 
   return response.json();
+};
+
+export const createPaymentIntent = async (
+  hotelId: string,
+  numberOfNights: string
+): Promise<PaymentIntentResponse> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
+    {
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify({ numberOfNights }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error fetching payment intent");
+  }
+
+  return response.json();
+};
+
+export const createRoomBooking = async (formData: BookingFormData) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(formData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error booking room");
+  }
 };
